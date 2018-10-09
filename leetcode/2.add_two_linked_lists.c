@@ -12,6 +12,55 @@
  *     struct ListNode *next;
  * };
  */
+
+//Using another node to store the results
+// struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2) {
+//     struct ListNode* curr = (struct ListNode*)malloc(sizeof(struct ListNode));
+//     curr->val = 1;
+//     curr->next = NULL;
+    
+//     int carry = 0;
+//     struct ListNode* head = curr;
+     
+    
+//     while(l1 != NULL || l2 != NULL){
+//         int a = 0;
+//         int b = 0;
+//         int sum =0;
+        
+//         if (l1 != NULL) {
+//             a = l1->val;
+//             l1 = l1->next;
+//         }
+//         if (l2 != NULL) {
+//             b = l2->val;
+//             l2 = l2->next;
+//         }
+        
+//         sum = a + b + carry;
+//         carry = sum/10;
+//         if (sum >= 10) sum = sum%10; 
+        
+//         struct ListNode* node = (struct ListNode*)malloc(sizeof(struct ListNode));
+//         node->val = sum;
+//         node->next = NULL;
+//         curr->next = node;
+//         curr = curr->next;
+//     }
+    
+//     if (carry > 0){
+//         struct ListNode* carry_node  = (struct ListNode*)malloc(sizeof(struct ListNode));
+//         carry_node->val = carry;
+//         carry_node->next = NULL;
+//         curr->next = carry_node;
+//         curr = curr->next;
+//     }
+
+//     return head->next;
+    
+// }
+
+
 struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2) {
     int carry = 0;
     int sum = 0;
