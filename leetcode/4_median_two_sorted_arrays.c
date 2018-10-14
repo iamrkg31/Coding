@@ -16,47 +16,51 @@
 
 
 // make sure nums1Size <= nums2Size
-double getMEdian(int* nums1, int nums1Size, int* nums2, int nums2Size){
+double getMedian(int* nums1, int nums1Size, int* nums2, int nums2Size){
     int x1,x2,y1,y2;
     int i1=0,i2=nums1Size;
+    
     int odd = 0;
     if ((nums1Size+nums2Size)%2 != 0) odd = 1;
+    
     int partition1, partition2;
     
     while(i1<=i2){
+        
         partition1 = (i2+i1)/2;
         partition2 = (nums1Size+nums2Size+1)/2 - partition1;
         
         x1 = (partition1 == 0)?INT_MIN:nums1[partition1-1];
         x2 = (partition1 == nums1Size)?INT_MAX:nums1[partition1];
         
-        x1 = (partition2 == 0)?INT_MIN:nums2[partition2-1];
-        x2 = (partition2 == nums2Size)?INT_MAX:nums2[partition2];
+        y1 = (partition2 == 0)?INT_MIN:nums2[partition2-1];
+        y2 = (partition2 == nums2Size)?INT_MAX:nums2[partition2];
+        
+        printf("%d:%d:%d:%d\n",x1,x2,y1,y2);
         
         if(x1<=y2 && y1<=x2){
             if (odd){
-                return (x2>y2?x2:y2);
+                return (x1>y1?x1:y1);
             }else{
-                return (double)((x1<y1?x1:y1)+(x2>y2?x2:y2))/2;
+                return (double)((x1>y1?x1:y1)+(x2<y2?x2:y2))/2;
             }
-        }else if(y2>x1){
-                    i2 = partition1 + 1;
-                
+        }else if(x1>y2){
+                i2 = partition1 - 1;                
         }else{           
-                    i1 = partition1 - 1;
+                i1 = partition1 + 1;
         }
     }
     
-    return;
+    return 0;
 }
 
 double findMedianSortedArrays(int* nums1, int nums1Size, int* nums2, int nums2Size) {
     double res = 0;    
     
     if (nums1Size <= nums2Size){
-        res = getMEdian(nums1, nums1Size, nums2, nums2Size);
+        res = getMedian(nums1, nums1Size, nums2, nums2Size);
     }else{
-        res = getMEdian(nums2, nums2Size, nums1, nums1Size);
+        res = getMedian(nums2, nums2Size, nums1, nums1Size);
     }       
     
     return res;    
