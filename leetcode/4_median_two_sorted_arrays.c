@@ -15,55 +15,49 @@
 // The median is (2 + 3)/2 = 2.5
 
 
-double getMedian(int *nums, int start, int end){
-    int length = end - start +1;
-    if (length%2 != 0){
-        return (double)(nums[start + length/2]);
-    }else{
-        return (double)(nums[start + length/2 - 1] + nums[start + length/2])/2;
-    }    
+// make sure nums1Size <= nums2Size
+double getMEdian(int* nums1, int nums1Size, int* nums2, int nums2Size){
+    int x1,x2,y1,y2;
+    int i1=0,i2=nums1Size;
+    int odd = 0;
+    if ((nums1Size+nums2Size)%2 != 0) odd = 1;
+    int partition1, partition2;
+    
+    while(i1<=i2){
+        partition1 = (i2+i1)/2;
+        partition2 = (nums1Size+nums2Size+1)/2 - partition1;
+        
+        x1 = (partition1 == 0)?INT_MIN:nums1[partition1-1];
+        x2 = (partition1 == nums1Size)?INT_MAX:nums1[partition1];
+        
+        x1 = (partition2 == 0)?INT_MIN:nums2[partition2-1];
+        x2 = (partition2 == nums2Size)?INT_MAX:nums2[partition2];
+        
+        if(x1<=y2 && y1<=x2){
+            if (odd){
+                return (x2>y2?x2:y2);
+            }else{
+                return (double)((x1<y1?x1:y1)+(x2>y2?x2:y2))/2;
+            }
+        }else if(y2>x1){
+                    i2 = partition1 + 1;
+                
+        }else{           
+                    i1 = partition1 - 1;
+        }
+    }
+    
+    return;
 }
 
 double findMedianSortedArrays(int* nums1, int nums1Size, int* nums2, int nums2Size) {
-    int i1 = 0;
-    int i2 = nums1Size -1;
-    int j1 = 0;
-    int j2 = nums2Size - 1;
+    double res = 0;    
     
-    if(nums1Size == 0 && nums2Size == 0){ return 0.0;}
-    else if(nums1Size == 0){
-        return getMedian(nums2,j1,j2);
-    }else if (nums2Size == 0){
-        return getMedian(nums1,i1,i2);
-    }
+    if (nums1Size <= nums2Size){
+        res = getMEdian(nums1, nums1Size, nums2, nums2Size);
+    }else{
+        res = getMEdian(nums2, nums2Size, nums1, nums1Size);
+    }       
     
-    while(1){
-        // printf("%d : %d\n",i1,i2);
-        // printf("%d : %d\n",j1,j2);
-        double m1 = getMedian(nums1, i1, i2);
-        double m2 = getMedian(nums2, j1, j2);
-        // printf("%f : %f\n",m1,m2);
-        int size1 = i2-i1+1;
-        int size2 = j2-j1+1;        
-        
-        if (m1 == m2) {
-            return m1;
-        } else if (size1 + size2 <= 4){   
-            // printf("%d\n",(nums1[i1]>nums2[j1]?nums1[i1]:nums2[j1]));
-            // printf("%d\n",(nums1[i2]<nums2[j2]?nums1[i2]:nums2[j2]));
-            return (double)((nums1[i1]>nums2[j1]?nums1[i1]:nums2[j1])+(nums1[i2]<nums2[j2]?nums1[i2]:nums2[j2]))/2;
-        }     
-        
-        if (m1 > m2){
-            i2 = i1 + size1/2;
-            j1 = j1 + size2/2;
-        }else if(m1<m2){
-            i1 = i1 + size1/2;
-            j2 = j1 + size2/2;
-        }
-        
-    }
-    
-    return ;
-    
+    return res;    
 }
